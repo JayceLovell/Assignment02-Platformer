@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PLayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour {
     // PRIVATE INSTANCE VARIABLES
     private Transform _transform;
     private Rigidbody2D _rigidbody;
@@ -13,12 +13,11 @@ public class PLayerController : MonoBehaviour {
 
     [Header("Sound Clips")]
     public AudioSource movingSound;
-    public AudioSource Engine_idle;
+    public AudioSource Engine_idleSound;
 
 	// Use this for initialization
 	void Start () {
         this._initialize();
-        Engine_idle.playOnAwake = true;
 	}
 	
 	// Update is called once per frame
@@ -26,13 +25,31 @@ public class PLayerController : MonoBehaviour {
         //if press to move play sound
         if(Input.GetKeyDown(KeyCode.D))
         {
-            this.movingSound.Play();
-            Engine_idle.playOnAwake = false;
+            Engine_idleSound.loop = false;
+            Engine_idleSound.Stop();
+        }
+        else if(Input.GetKey(KeyCode.D))
+        {
+            if (movingSound.isPlaying)
+            { }
+            else
+            {
+                movingSound.Play();
+            }
+        }
+        else if(Input.GetKeyUp(KeyCode.D))
+        {
+            movingSound.Stop();
+            Engine_idleSound.loop = true;
+            Engine_idleSound.Play();
         }
 
         this._move = Input.GetAxis("Horizontal");
         this._rigidbody.AddForce(new Vector2(this._move * this.Velocity,0f),ForceMode2D.Force);
-        this.camera.transform.position = new Vector3(this._transform.position.x, this._transform.position.y, -10f);
+        this.camera.transform.position = new Vector3(
+            this._transform.position.x,
+            this._transform.position.y,
+            -10f);
 
         if (Input.GetKeyUp(KeyCode.R))
         {
@@ -57,5 +74,5 @@ public class PLayerController : MonoBehaviour {
         this._transform = GetComponent<Transform>();
         this._rigidbody = GetComponent<Rigidbody2D>();
         this._move = 0f;
-    } 
+    }
 }
