@@ -13,7 +13,7 @@ public class WheelBehavuour : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             animator.SetInteger("WheelState", 1);
         }
@@ -21,6 +21,5 @@ public class WheelBehavuour : MonoBehaviour {
         {
             animator.SetInteger("WheelState", 0);
         }
-        Debug.Log(animator.GetInteger("Wheelstate"));
     }
 }
