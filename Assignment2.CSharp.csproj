@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\_Scripts\CarMovement.cs" />
+    <Compile Include="Assets\_Scripts\FuelController.cs" />
     <Compile Include="Assets\_Scripts\GameController.cs" />
     <Compile Include="Assets\_Scripts\RespawnController.cs" />
     <Compile Include="Assets\_Scripts\WheelBehavuour.cs" />
