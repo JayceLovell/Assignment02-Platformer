@@ -10,6 +10,8 @@ public class GameController : MonoBehaviour
     private float _timeValue;
     private int _fuelValue;
     private bool _isGameOver;
+    private bool _isGameWin;
+    private int _score;
 
     public AudioSource GameOverSound;
 
@@ -17,6 +19,7 @@ public class GameController : MonoBehaviour
     public Text TimeLabel;
     public Text FuelLabel;
     public Text GameOverLabel;
+    public Text ScoreLabel;
 
     // PUBLIC PROPERTIES ++++++++++++++++++++
     public int FuelValue
@@ -48,7 +51,7 @@ public class GameController : MonoBehaviour
         set
         {
             this._timeValue = value;
-            if (this._timeValue <= 0)
+            if (this._timeValue <= 0 || IsGamewin)
             {
                 IsGameover = true;
             }
@@ -56,6 +59,18 @@ public class GameController : MonoBehaviour
             {
                 this.TimeLabel.text = "Time Left: " + Mathf.Round(this._timeValue);
             }
+        }
+    }
+    public int ScoreValue
+    {
+        get
+        {
+            return this._score;
+        }
+        set
+        {
+            this._score = value;
+            this.ScoreLabel.text = "Score: " + this._score;
         }
     }
     public bool IsGameover
@@ -70,7 +85,24 @@ public class GameController : MonoBehaviour
             if(IsGameover)
             {
                 this.GameOverLabel.gameObject.SetActive(true);
+                this.GameOverLabel.text = "GameOver";
                 GameOverSound.Play();
+            }
+        }
+    }
+    public bool IsGamewin
+    {
+        get
+        {
+            return this._isGameWin;
+        }
+        set
+        {
+            this._isGameWin = value;
+            if(IsGamewin)
+            {
+                this.GameOverLabel.gameObject.SetActive(true);
+                this.GameOverLabel.text = "You Win";
             }
         }
     }
@@ -80,7 +112,9 @@ public class GameController : MonoBehaviour
         this.FuelValue = 1000;
         this.TimeValue = 300.0f;
         this.IsGameover = false;
+        this.IsGamewin = false;
         this.GameOverLabel.gameObject.SetActive(false);
+        this.ScoreValue = 0;
     }
 
     // Update is called once per frame

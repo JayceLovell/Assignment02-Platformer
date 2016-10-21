@@ -20,7 +20,9 @@ public class FuelController : MonoBehaviour {
 	}
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if(!_gameController.IsGameover)
         this._gameController.FuelValue += 300;
+
         Destroy(gameObject);
     }
 }

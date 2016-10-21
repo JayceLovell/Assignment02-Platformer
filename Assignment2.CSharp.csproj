@@ -81,7 +81,6 @@
     <Compile Include="Assets\_Scripts\CarMovement.cs" />
     <Compile Include="Assets\_Scripts\FuelController.cs" />
     <Compile Include="Assets\_Scripts\GameController.cs" />
-    <Compile Include="Assets\_Scripts\RespawnController.cs" />
     <Compile Include="Assets\_Scripts\WheelBehavuour.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />

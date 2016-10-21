@@ -31,7 +31,6 @@ public class CarMovement : MonoBehaviour
     public Transform CenterOfMass;
     public Transform RearWheel;
     public Transform FrontWheel;
-    public GameObject SpawnPoint;
     [Header("Sound Clips")]
     public AudioSource Tires_Screech;
     public AudioSource Engine_Sound;
@@ -48,8 +47,6 @@ public class CarMovement : MonoBehaviour
     private void _initialize()
     {
         this._camera = GameObject.FindWithTag("MainCamera");
-
-        this.SpawnPoint = GameObject.FindWithTag("SpawnPoint");
 
         this._gameControllerObject = GameObject.Find("GameController");
 
@@ -73,8 +70,13 @@ public class CarMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!_gameController.IsGameover)
+        if (!_gameController.IsGameover && !_gameController.IsGamewin)
         {
+            if(_rigidbody.velocity.magnitude>2)
+            {
+                //increase score
+                this._gameController.ScoreValue++;
+            }
             //add ability to rotate the car around its axis
             _torqueDir = Input.GetAxis("Horizontal");
 
@@ -90,9 +92,9 @@ public class CarMovement : MonoBehaviour
             _slope = transform.localEulerAngles.z;
 
             //Give the vehicle a wheele barrel effect
-            if(_rigidbody.rotation > 46)
+            if(_rigidbody.rotation > 50)
             {
-                _rigidbody.rotation = 45;
+                _rigidbody.rotation -= 5;
             }
             //if slope is more than 180 add more power
             if (_slope >= 180)
@@ -106,6 +108,7 @@ public class CarMovement : MonoBehaviour
             {
                 //decrease fuel
                 this._gameController.FuelValue -= 1;
+
                 //add speed
                 _motorBack.motorSpeed = Mathf.Clamp(_motorBack.motorSpeed - (_dir * _accelerationRate - _gravity * Mathf.Sin((_slope * Mathf.PI) / 180) * 80) * Time.deltaTime, _maxFwdSpeed, _maxBwdSpeed);
             }
@@ -150,12 +153,34 @@ public class CarMovement : MonoBehaviour
             _torqueDir = 0;
             Engine_Sound.loop = false;
             Engine_Sound.Stop();
-            //this._transform.position = this.SpawnPoint.transform.position;
+            //apply brakes to the car
+            if (_motorBack.motorSpeed > 0)
+            {
+                _motorBack.motorSpeed = Mathf.Clamp(_motorBack.motorSpeed - _brakeSpeed * Time.deltaTime, 0, _maxBwdSpeed);
+            }
+            else if ( _motorBack.motorSpeed < 0)
+            {
+                _motorBack.motorSpeed = Mathf.Clamp(_motorBack.motorSpeed + _brakeSpeed * Time.deltaTime, _maxFwdSpeed, 0);
+                if (!Tires_Screech.isPlaying)
+                {
+                    Tires_Screech.Play();
+                }
+            }
         }
-        //moves camera to player
-        this._camera.transform.position = new Vector3(
-           this._transform.position.x,
-           this._transform.position.y,
-           -10f);
+        if (!_gameController.IsGamewin)
+        {
+            //moves camera to player
+            this._camera.transform.position = new Vector3(
+               this._transform.position.x,
+               this._transform.position.y,
+               -10f);
+        }
+    }
+   private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("End"))
+        {
+            _gameController.IsGamewin = true;
+        }
     }
 }
