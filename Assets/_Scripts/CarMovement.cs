@@ -92,9 +92,9 @@ public class CarMovement : MonoBehaviour
             _slope = transform.localEulerAngles.z;
 
             //Give the vehicle a wheele barrel effect
-            if(_rigidbody.rotation > 50)
+            if(_rigidbody.rotation > 60)
             {
-                _rigidbody.rotation -= 5;
+                _rigidbody.rotation -= 15;
             }
             //if slope is more than 180 add more power
             if (_slope >= 180)

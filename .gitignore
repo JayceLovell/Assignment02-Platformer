@@ -1,2 +1,9 @@
 *.meta
 Builds
+Temp/UnityLockfile
+Temp/StagingArea/Data/methods_pointedto_by_uievents.xml
+Temp/StagingArea/Data/Resources/unity_default_resources
+Temp/UnityTempFile-b41a07feb53f8534ca34987875f940cb
+Temp/UnityTempFile-e0175d23c6af4904589cfc91a94e7650
+Temp/UnityTempFile-8d3798aad2526414cbb6ae8acd8b319e
+Temp/__Backupscenes/0.backup
